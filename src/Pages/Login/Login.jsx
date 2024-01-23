@@ -28,7 +28,7 @@ const Login = () => {
 
   return (
     <div className="relative  ">
-      <section className="w-full container  mx-auto px-8 py-20  items-center gap-8 ">
+      <section className="w-full container  mx-auto px-8  pb-10 items-center gap-8 ">
         <div className="flex justify-center items-center mt-10">
           <div className="max-w-md relative z-10 border py-8 md:py-10 px-5 md:px-12 mx-auto space-y-8 bg-white rounded-md">
             <h2 className="font-semibold text-3xl">Login your account</h2>
@@ -106,13 +106,7 @@ const Login = () => {
                   >
                     <FcGoogle className="text-2xl" /> continue with Google
                   </button>
-                  <button
-                    // onClick={() => socialLogin(facebookSignIn)}
-                    className="btn w-full btn-outline"
-                  >
-                    {" "}
-                    <BsFacebook className="text-2xl" /> continue with Facebook
-                  </button>
+               
                 </div>
               </div>
             </div>

@@ -1,12 +1,17 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 const specialCharacter = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/;
 import { useForm } from "react-hook-form";
-const Register = () => {
-  const { state } = useLocation();
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
+
+
+const Register = () => {
+  const [disable,setDisable] = useState(false)
+  const axiosPublic = useAxiosPublic()
+  const navigate = useNavigate()
   const [show, setShow] = useState(false);
   const [err, setErr] = useState(null);
 
@@ -17,33 +22,49 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+
+
+  const onSubmit = async (data) => {
+    setDisable(true);
     setErr(null);
-    const name = data.name;
-    const email = data.email;
-    const photoUrl = data.photoUrl;
-    const password = data.password;
+    const {terms,...rest} = data;
 
-    if (password.length < 6) {
-      setErr("Password must be at least 6 characters!");
-      return;
-    }
+    // if (password.length < 6) {
+    //   setErr("Password must be at least 6 characters!");
+    //   return;
+    // }
 
-    if (!/[A-Z]/.test(password)) {
-      setErr("Password must contain at least 1 upper case letter!");
-      return;
-    }
+    // if (!/[A-Z]/.test(password)) {
+    //   setErr("Password must contain at least 1 upper case letter!");
+    //   return;
+    // }
 
-    if (!specialCharacter.test(password)) {
-      setErr("Password should have at least 1 special character!");
-      return;
-    }
+    // if (!specialCharacter.test(password)) {
+    //   setErr("Password should have at least 1 special character!");
+    //   return;
+    // }
 
-    if (!/\d/.test(password)) {
-      setErr("Password must contain at least 1 number!");
-      return;
+    // if (!/\d/.test(password)) {
+    //   setErr("Password must contain at least 1 number!");
+    //   return;
+    // }
+
+   await axiosPublic.post('/auth/signup',rest).then(res=> {
+    navigate('/login')
+   setDisable(false);
+   }).catch(err=> {
+    const errorType = err.response.data
+    if(errorType.message.includes('userName')){
+      setErr("Username Is Taken!")
+    }else if (errorType.message.includes("email")) {
+       setErr("Email Is Taken!");
     }
-    console.log(data);
+      setDisable(false);
+  });
+    
+
+
+   
   };
 
 
@@ -58,7 +79,7 @@ const Register = () => {
             <p className="font-semibold">Your Name</p>
             <input
               type="text"
-              {...register("name", { required: true })}
+              {...register("userName", { required: true })}
               placeholder="Enter your name"
               className="input input-bordered w-full bg-gray-100 text-black"
             />
@@ -127,6 +148,7 @@ const Register = () => {
                 <span className="text-red-500">{errors.terms.message}</span>
               )}
               <input
+                disabled={disable}
                 type="submit"
                 value="Register"
                 className="btn btn-neutral outline outline-white bg-black text-white w-full"
