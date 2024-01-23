@@ -8,6 +8,9 @@ import Home from './Pages/Home/Home';
 import Login from './Pages/Login/Login';
 import Register from './Pages/Register/Register';
 import Dashboard from './Pages/Dashboard/Dashboard';
+import { store } from "./Redux/store";
+import { Provider } from "react-redux";
+
 
 const router = createBrowserRouter([
   {
@@ -36,8 +39,10 @@ const router = createBrowserRouter([
 ]);
 
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-  <RouterProvider router={router}></RouterProvider>
-  </React.StrictMode>,
-)
+ReactDOM.createRoot(document.getElementById("root")).render(
+ 
+    <Provider store={store}>
+      <RouterProvider router={router}></RouterProvider>
+    </Provider>
+  
+);

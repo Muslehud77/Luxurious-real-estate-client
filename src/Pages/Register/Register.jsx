@@ -86,6 +86,19 @@ const Register = () => {
             {errors.name && (
               <span className="text-red-500">Name is required!</span>
             )}
+            <p className="font-semibold">Your Role</p>
+            <select
+              type="text"
+              {...register("role", { required: true })}
+             
+              className="input input-bordered w-full bg-gray-100 text-black"
+            >
+              <option value='user'>User</option>
+              <option value='seller'>Seller</option>
+            </select>
+            {errors.name && (
+              <span className="text-red-500">Role is required!</span>
+            )}
            
 
             <p className="font-semibold">Your Email</p>

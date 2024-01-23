@@ -8,14 +8,23 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAxiosPublic from './../../Hooks/useAxiosPublic';
 
-const Login = () => {
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../../Redux/user/userSlice";
 
+const Login = () => {
+  const dispatch = useDispatch()
   const axiosPublic = useAxiosPublic()
   const navigate = useNavigate();
   const { state } = useLocation();
-  const [disable, setDisable] = useState(false);
+  const {disable,error} = useSelector((state)=>state.user)
+
+  
   const [show, setShow] = useState(false);
-  const [err, setErr] = useState(null);
+ 
 
   const {
     register,
@@ -25,8 +34,8 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    setErr(null);
-   setDisable(true)
+   
+   dispatch(signInStart())
 
      await axiosPublic
        .post("/auth/sign-in", data, {
@@ -34,13 +43,12 @@ const Login = () => {
        })
        .then((res) => {
         navigate('/')
-         setDisable(false);
+        dispatch(signInSuccess(res.data))
        })
        .catch((err) => {
          const errorType = err.response.data;
-
-         setErr(errorType.message);
-         setDisable(false);
+          dispatch(signInFailure(errorType.message));
+       
        });
 
 
@@ -92,9 +100,9 @@ const Login = () => {
                 <span className="text-red-500">Password is required!</span>
               )}
               <div className="space-y-2">
-                {err && (
+                {error && (
                   <p className="capitalize text-red-500 font-serif  rounded-xl">
-                    {err}
+                    {error}
                   </p>
                 )}
                 <input
