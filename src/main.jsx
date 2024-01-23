@@ -11,6 +11,7 @@ import Dashboard from './Pages/Dashboard/Dashboard';
 import { store ,persistor} from "./Redux/store";
 import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react';
+import PrivateRouteForDashboard from './PrivateRoute/PrivateRouteForDashboard';
 
 
 const router = createBrowserRouter([
@@ -19,23 +20,26 @@ const router = createBrowserRouter([
     element: <Root></Root>,
     children: [
       {
-      path: '/',
-      element: <Home/>
-    },
-    {
-      path: '/login',
-      element: <Login/>
-    },
-    {
-      path: '/register',
-      element: <Register/>
-    },
-    {
-      path: '/dashboard',
-      element: <Dashboard/>
-    }
-    
-  ]
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+      {
+        path: "/dashboard",
+        element: (
+          <PrivateRouteForDashboard>
+            <Dashboard />
+          </PrivateRouteForDashboard>
+        ),
+      },
+    ],
   },
 ]);
 
