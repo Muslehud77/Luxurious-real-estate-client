@@ -8,8 +8,9 @@ import Home from './Pages/Home/Home';
 import Login from './Pages/Login/Login';
 import Register from './Pages/Register/Register';
 import Dashboard from './Pages/Dashboard/Dashboard';
-import { store } from "./Redux/store";
+import { store ,persistor} from "./Redux/store";
 import { Provider } from "react-redux";
+import { PersistGate } from 'redux-persist/integration/react';
 
 
 const router = createBrowserRouter([
@@ -40,9 +41,9 @@ const router = createBrowserRouter([
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
- 
-    <Provider store={store}>
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
       <RouterProvider router={router}></RouterProvider>
-    </Provider>
-  
+    </PersistGate>
+  </Provider>
 );
