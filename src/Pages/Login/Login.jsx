@@ -15,6 +15,7 @@ import {
   signInFailure,
 } from "../../Redux/user/userSlice";
 
+
 const Login = () => {
   const dispatch = useDispatch()
   const axiosPublic = useAxiosPublic()
@@ -124,23 +125,7 @@ const Login = () => {
                   Register
                 </Link>
               </span>
-              <div className="mt-3">
-                <div className="flex justify-center gap-5 items-center mb-2">
-                  <div className="w-16 h-[1px] bg-black"></div>
-                  <h2 className="text-xl font-bold ">or</h2>
-                  <div className="w-16 h-[1px] bg-black"></div>
-                </div>
-
-                <div className="space-y-2">
-                  <button
-                    // onClick={() => socialLogin(googleSignIn)}
-                    className="btn w-full btn-outline"
-                  >
-                    <FcGoogle className="text-2xl" /> continue with Google
-                  </button>
-               
-                </div>
-              </div>
+             
             </div>
           </div>
         </div>

@@ -1,8 +1,13 @@
 import { Link, NavLink } from 'react-router-dom';
 import logo from '../../../Assets/logos/gold-black.png'
 import { CiSearch } from "react-icons/ci";
+import useUser from '../../../Hooks/useUser';
 
 const Navbar = () => {
+
+    const user = useUser()
+
+    
 
     const links = (
       <>
@@ -16,11 +21,13 @@ const Navbar = () => {
             About
           </NavLink>
         </li>
-        <li>
-          <Link to="/login" className="btn btn-outline btn-sm">
-            Login
-          </Link>
-        </li>
+        {!user && (
+          <li>
+            <Link to="/login" className="btn btn-outline btn-sm">
+              Login
+            </Link>
+          </li>
+        )}
       </>
     );
 
@@ -80,12 +87,38 @@ const Navbar = () => {
             <ul className="menu hidden lg:flex gap-3 menu-horizontal px-1">
               {links}
             </ul>
-            <div className="h-10 w-[1px]  hidden lg:flex bg-black mx-3"></div>
-            <div className="avatar">
-              <div className="w-12 rounded-full">
-                <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-              </div>
-            </div>
+            {user && (
+              <>
+                <div className="h-10 w-[1px]  hidden lg:flex bg-black mx-3"></div>
+                <div className="dropdown dropdown-end">
+                  <div tabIndex={0} role="button" className="avatar">
+                    <div className="w-10 rounded-full">
+                      <img
+                        src={
+                          user?.img
+                            ? user.img
+                            : "https://assets-prod.sumo.prod.webservices.mozgcp.net/static/default-FFA-avatar.2f8c2a0592bda1c5.png"
+                        }
+                      />
+                    </div>
+                  </div>
+                  <ul
+                    tabIndex={0}
+                    className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                  >
+                    <li>
+                      <span className='!bg-black !text-white !cursor-default'>{user.userName}</span>
+                    </li>
+                    <li>
+                      <Link to={'/dashboard'}>Dashboard</Link>
+                    </li>
+                    <li>
+                      <button>Logout</button>
+                    </li>
+                  </ul>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </header>

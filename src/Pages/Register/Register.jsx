@@ -8,6 +8,7 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 
 
+
 const Register = () => {
   const [disable,setDisable] = useState(false)
   const axiosPublic = useAxiosPublic()
@@ -72,7 +73,7 @@ const Register = () => {
   return (
     <section className="relative mb-10">
       <div>
-        <div className="max-w-md relative z-10  py-10 px-12 mx-auto space-y-8  border mt-10 text-black backdrop-blur-md rounded-md">
+        <div className="max-w-md relative z-10  py-10 px-12 mx-auto space-y-5  border mt-10 text-black backdrop-blur-md rounded-md">
           <h2 className="font-semibold text-3xl">Register Account</h2>
           <hr />
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -168,6 +169,7 @@ const Register = () => {
               />
             </div>
           </form>
+         
         </div>
       </div>
     </section>
