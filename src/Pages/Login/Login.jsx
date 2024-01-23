@@ -6,10 +6,14 @@ import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { useState } from "react";
 
 import { useForm } from "react-hook-form";
+import useAxiosPublic from './../../Hooks/useAxiosPublic';
 
 const Login = () => {
+
+  const axiosPublic = useAxiosPublic()
   const navigate = useNavigate();
   const { state } = useLocation();
+  const [disable, setDisable] = useState(false);
   const [show, setShow] = useState(false);
   const [err, setErr] = useState(null);
 
@@ -20,10 +24,29 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     setErr(null);
-    const email = data.email;
-    const password = data.password;
+   setDisable(true)
+
+     await axiosPublic
+       .post("/auth/sign-in", data, {
+         withCredentials: true,
+       })
+       .then((res) => {
+        navigate('/')
+         setDisable(false);
+       })
+       .catch((err) => {
+         const errorType = err.response.data;
+
+         setErr(errorType.message);
+         setDisable(false);
+       });
+
+
+
+
+
   };
 
   return (
@@ -75,6 +98,7 @@ const Login = () => {
                   </p>
                 )}
                 <input
+                disabled={disable}
                   type="submit"
                   value="login"
                   className="btn btn-neutral w-full"
